@@ -1,0 +1,76 @@
+#include <stdio.h>
+#include <math.h>
+#include <cs50.h>
+
+int main(void)
+{
+    long number;
+    do
+    {
+        number = get_long("Number: "); /*prompts user for credit card number*/
+    }
+    while (number < 0);
+
+    /* checksum section*/
+    
+    int sum1 = 0;
+    int sum2 = 0;
+    int digit;
+    long number1 = number;
+    long number2 = number;
+    
+    
+    for (int i = 1; i <= 8; i = i + 1)
+        {
+            digit = (2 * ((number1 % 100) - (number1 % 10)) / 10);
+            if (digit < 10)
+            {
+                sum1 = sum1 + digit;
+            }
+            else
+            {
+                sum1 = sum1 + (((digit % 100) - (digit % 10)) / 10) + (digit % 10);
+            }
+            number1 = (number1 - (number1 % 100)) / 100;
+        }
+         /*printf("%i\n", sum1);*/
+         
+    for (int j = 1; j <= 8; j++)
+        {
+            sum2 = sum2 + (number2 % 10);
+            number2 = ((number2 - (number2 % 10) / 10) - (number2 % 100)) / 100;
+        }
+    /*printf("%i\n", sum2);*/
+    if (number >= 4000000000000 && (sum1 + sum2) %10 == 0 && number < 5600000000000000)
+    {
+
+    /* sorting section */
+
+    int first = floor(number / 10000000000);/*gets long value down to int value*/
+
+    while (first >= 100)
+    {
+       first = first / 10; /*finds first 2 digits*/
+    }
+
+    /*printf("%i\n", first); print first 2 digits for testing*/
+
+    if (first == 34 || first == 37)
+    {
+        printf("AMEX\n");
+    }
+    else if (first >= 51 && first <= 55)
+    {
+        printf("MASTERCARD\n");
+    }
+    else if (first >=40 && first <=49)
+    {
+        printf("VISA\n");
+    }
+    else
+    {
+        printf("INVALID\n");
+    }
+    }
+    else printf("INVALID\n");
+}
